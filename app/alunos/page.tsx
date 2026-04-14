@@ -1,23 +1,31 @@
-export default function AlunosPag(){
-    return(
-        <div className="justify-center flex flex-col gap-100">
-            <h1 className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black text-4xl font-bold ">Lista de alunos</h1>
+import AlunoItem from "@/components/AlunoItem";
 
-            <div className="flex flex-col flex-1 items-center justify-center ">
-                <ul className=" justify-center flex flex-col gap-10 ">
-                    <li className="  bg-indigo-500 opacity-50 flex h-12 w-full items-center justify-center gap-5  bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px] outline-2 outline-offset-2 outline-pink-500">Aluno 1</li>
-                    <li className=" bg-indigo-500 opacity-50 flex h-12 w-full items-center justify-center gap-5  bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px] outline-2 outline-offset-2 outline-pink-500">Aluno 2</li>
-                    <li className="bg-indigo-500 opacity-50 flex h-12 w-full items-center justify-center gap-5 bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px] outline-2 outline-offset-2 outline-pink-500">Aluno 3</li>
-                    <li className="bg-indigo-500 opacity-50 flex h-12 w-full items-center justify-center gap-5  bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px] outline-2 outline-offset-2 outline-pink-500">Aluno 4</li>
-                    <li className=" bg-indigo-500 opacity-50 flex h-12 w-full items-center justify-center gap-5  bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px] outline-2 outline-offset-2 outline-pink-500">Aluno 5</li>
-                    <li className="bg-indigo-500 opacity-50 flex h-12 w-full items-center justify-center gap-5 bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px] outline-2 outline-offset-2 outline-pink-500">Aluno 6</li>
-                    <li className="bg-indigo-500 opacity-50 flex h-12 w-full items-center justify-center gap-5  bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px] outline-2 outline-offset-2 outline-pink-500">Aluno 7</li>
-                    <li className=" bg-indigo-500 opacity-50 flex h-12 w-full items-center justify-center gap-5  bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px] outline-2 outline-offset-2 outline-pink-500">Aluno 8</li>
-                    <li className="bg-indigo-500 opacity-50 flex h-12 w-full items-center justify-center gap-5 bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px] outline-2 outline-offset-2 outline-pink-500">Aluno 9</li>
-                    <li className="bg-indigo-500 opacity-50 flex h-12 w-full items-center justify-center gap-5 bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px] outline-2 outline-offset-2 outline-pink-500">Aluno 10</li>
-                </ul>
+export default async function AlunosPage() {
+  const alunos = await fetch("http://localhost:8080/alunos").then((res) =>
+    res.json(),
+  );
 
-            </div>
-        </div>
-    )
+  console.log(alunos);
+
+  return (
+    <div className="justify-center flex flex-col gap-100">
+      <h1 className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black text-4xl font-bold ">
+        Lista de alunos
+      </h1>
+      <div className="flex flex-col flex-1 items-center justify-center ">
+        <ul className=" justify-center flex flex-col gap-10 ">
+          <AlunoItem id={1} nome="Samuel" />
+          <AlunoItem id={2} nome="pedro" />
+          <AlunoItem id={3} nome="kauan" />
+          <AlunoItem id={4} nome="alexandre" />
+          <AlunoItem id={5} nome="anthony" />
+          <AlunoItem id={6} nome="vinicius" />
+          <AlunoItem id={7} nome="victor" />
+          <AlunoItem id={8} nome="juan" />
+          <AlunoItem id={9} nome="eduardo" />
+          <AlunoItem id={10} nome="marcos" />
+        </ul>
+      </div>
+    </div>
+  );
 }
