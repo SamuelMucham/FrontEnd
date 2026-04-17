@@ -1,24 +1,23 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-interface Props{
-  onSend: (email: string, password: string) => Promise <void | string>
-} 
+interface Props {
+  onSend: (email: string, password: string) => Promise<void | string>;
+}
 
-export default function LoginForm({onSend}: Props) {
+export default function LoginForm({ onSend }: Props) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  async function handleSubimit(){
+  async function handleSubimit() {
     const response = await onSend(email, password);
 
-    if(response) {
+    if (response) {
       alert(response);
-      return
+      return;
     }
-    router.push("/")
+    router.push("/");
   }
-
 
   return (
     <div>

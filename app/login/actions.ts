@@ -16,7 +16,7 @@ export async function loginAction(email: string, password: string) {
 
   if ( response.status == 200){
     const cookieStore = await cookies();
-    cookieStore.set("acess_token", data.acess_token)
+    cookieStore.set("access_token", data.access_token)
     return;
   }
 
