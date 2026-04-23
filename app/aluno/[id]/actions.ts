@@ -1,22 +1,18 @@
-"use server"
+"use server";
 import { ALuno } from "@/interfaces/alunos";
 import { cookies } from "next/headers";
-
-export async function getAlunos() {
+export async function getAluno(id: number) {
   const cookiesStore = await cookies();
   const token = cookiesStore.get("access_token")?.value;
-
-  const response = await fetch("http://localhost:8080/alunos", {
+  const response = await fetch(`http://localhost:8080/alunos/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   })
     .then((res) => res.json())
-
     .catch((e) => {
       console.error(e);
-      return [];
+      return {};
     });
-
-  return response as ALuno[];
+  return response as ALuno;
 }
