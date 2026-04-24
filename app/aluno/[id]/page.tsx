@@ -3,7 +3,6 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getAluno } from "./actions";
 import { ALuno } from "@/interfaces/alunos";
-import StarBackground from "./StarBackground";
 
 export default function AlunoPage() {
   const { id } = useParams();
@@ -22,7 +21,6 @@ export default function AlunoPage() {
   if (loading) {
     return (
       <div className="relative flex items-center justify-center h-screen bg-black overflow-hidden">
-        <StarBackground />
         <div className="animate-pulse text-cyan-400 text-xl tracking-widest z-10 font-mono">
           CARREGANDO DADOS...
         </div>
@@ -32,9 +30,7 @@ export default function AlunoPage() {
 
   return (
     <div className="relative flex items-center justify-center h-screen bg-black overflow-hidden">
-      <StarBackground />
 
-      {/* Brilho de fundo */}
       <div className="absolute w-[500px] h-[500px] bg-cyan-500/10 blur-[120px] rounded-full"></div>
 
       <div className="relative z-10 backdrop-blur-2xl bg-white/5 border border-white/10 
@@ -42,7 +38,6 @@ export default function AlunoPage() {
         rounded-3xl p-8 w-[350px]
         transition-all duration-500 hover:border-cyan-500/30">
         
-        {/* Header com Avatar */}
         <div className="flex flex-col items-center mb-6">
           <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 
             flex items-center justify-center text-3xl font-black text-black shadow-[0_0_20px_rgba(6,182,212,0.5)] mb-4">
@@ -56,17 +51,14 @@ export default function AlunoPage() {
           </span>
         </div>
 
-        {/* Divisor */}
         <div className="w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent mb-6"></div>
 
-        {/* Grade de Informações */}
         <div className="space-y-4 text-left">
           <InfoRow label="Idade" value={`${aluno?.idade} anos`} />
           <InfoRow label="CPF" value={aluno?.cpf} />
           <InfoRow label="E-mail" value={aluno?.email} isEmail />
         </div>
 
-        {/* Footer */}
         <div className="mt-8 pt-4 border-t border-white/5 text-center">
           <p className="text-gray-500 text-[10px] uppercase tracking-[0.2em]">
             Sistema de Gerenciamento Acadêmico
@@ -77,7 +69,6 @@ export default function AlunoPage() {
   );
 }
 
-// Componente auxiliar para as linhas de informação
 function InfoRow({ label, value, isEmail = false }: { label: string; value?: string | number; isEmail?: boolean }) {
   return (
     <div className="flex flex-col">
