@@ -1,4 +1,5 @@
 "use server"; 
+import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 interface creatreAluno {
     nome: string;
@@ -23,6 +24,7 @@ export async function creatreAluno(aluno: creatreAluno) {
     const data = await response.json()
 
     if (response.status == 201) {
+        revalidateTag("listar", "max");
         return;
     }
     return data;

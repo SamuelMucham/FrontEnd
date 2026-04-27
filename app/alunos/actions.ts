@@ -10,6 +10,7 @@ export async function getAlunos() {
     headers: {
       Authorization: `Bearer ${token}`,
     },
+    next: {tags: ["listar"] },
   })
     .then((res) => res.json())
 
