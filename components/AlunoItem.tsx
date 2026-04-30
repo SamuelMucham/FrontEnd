@@ -1,4 +1,9 @@
+"use client";
+
 import Link from "next/link";
+import { Trash } from "lucide-react";
+import { deleteAluno } from "@/app/alunos/actions";
+import { useRouter } from "next/navigation";
 
 interface Props {
   id: number;
@@ -6,13 +11,23 @@ interface Props {
 }
 
 export default function AlunoItem({ id, nome }: Props) {
+  const router = useRouter();
+
+  function handleDelete(){
+    deleteAluno(id);
+    router.refresh();
+  }
   return (
     <div className="flex gap-1">
-    <Link href={`/aluno/${id}`}>
-      <li className="bg-indigo-500 opacity-50 flex h-12 w-full items-center justify-center gap-5 px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-39.5 outline-2 outline-offset-2 outline-pink-500">
-        {nome}
-      </li>
-    </Link>
+      <Link href={`/aluno/${id}`}>
+        <li>{nome}</li>
+      </Link>
+      <button
+        className="text-red-500 cursor-pointer"
+        onClick={handleDelete}
+      >
+        <Trash />
+      </button>
     </div>
   );
 }

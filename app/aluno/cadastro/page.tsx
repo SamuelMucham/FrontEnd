@@ -1,21 +1,21 @@
 "use client";
 import { useState } from "react";
-import { creatreAluno } from "./actions";
+import { createAluno } from "./actions";
 import { useRouter } from "next/navigation";
 
 export default function AlunoCadastroPage() {
   const router = useRouter();
-  const [nome, setNome] = useState("");
+  const [name, setNome] = useState("");
   const [idade, setIdade] = useState("");
   const [cpf, setCpf] = useState("");
   const [email, setEmail] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const response = await creatreAluno({
-      nome,
+    const response = await createAluno({
+      nome: name,
       idade: Number(idade),
-      cpf : Number(cpf),
+      cpf: Number(cpf),
       email,
     });
     if (!response) {
@@ -78,7 +78,7 @@ export default function AlunoCadastroPage() {
             <input
               type="text"
               placeholder="Nome"
-              value={nome}
+              value={name}
               onChange={(e) => setNome(e.target.value)}
               className="
                 w-full px-3 py-2

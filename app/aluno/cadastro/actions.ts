@@ -1,31 +1,38 @@
-"use server"; 
+"use server";
+
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
-interface creatreAluno {
-    nome: string;
-    idade: number;
-    cpf: number;
-    email: string;
+import { redirect } from "next/navigation";
+
+interface CreateAluno {
+  nome: string;
+  idade: number;
+  cpf: number;
+  email: string;
 }
 
-export async function creatreAluno(aluno: creatreAluno) {
-    const cookiesStore = await cookies();
-    const token = cookiesStore.get("access_token")?.value;
-    console.log(JSON.stringify(aluno));
+export async function createAluno(aluno: CreateAluno) {
+  const cookiesStore = await cookies();
+  const token = cookiesStore.get("access_token")?.value;
 
-    const response = await fetch("http://localhost:8080/alunos", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(aluno),
-    })
-    const data = await response.json()
+  const response = await fetch("http://localhost:8080/alunos", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(aluno),
+  });
 
-    if (response.status == 201) {
-        revalidateTag("listar", "max");
-        return;
-    }
-    return data;
+  const data = await response.json();
+
+  if (response.status === 201) {
+    revalidateTag("listar", "max");
+    return;
+  }
+  if (response.status === 401) {
+    redirect("/login");
+  }
+
+  return data;
 }

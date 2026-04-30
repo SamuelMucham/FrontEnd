@@ -1,10 +1,12 @@
 import LoginForm from "@/components/LoginForm";
+
 import { loginAction } from "./actions";
 
 export default function LoginPage() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen gap-10">
-      <h1 className="text-4xl font-bold mt-10 mb-50">LOGIN</h1>
+    <div className="w-screen h-screen flex flex-col items-center">
+      <h1 className="mt-10 mb-50 text-5xl font-bold">Login</h1>
+
       <LoginForm onSend={loginAction} />
     </div>
   );

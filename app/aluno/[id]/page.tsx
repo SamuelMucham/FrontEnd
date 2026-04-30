@@ -2,11 +2,13 @@
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getAluno } from "./actions";
-import { ALuno } from "@/interfaces/alunos";
+import { Aluno } from "@/interfaces/alunos";
+import Link from "next/link";
+import { PenBox } from "lucide-react";
 
 export default function AlunoPage() {
   const { id } = useParams();
-  const [aluno, setAluno] = useState<ALuno | null>(null);
+  const [aluno, setAluno] = useState<Aluno | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -29,19 +31,25 @@ export default function AlunoPage() {
   }
 
   return (
-    <div className="relative flex items-center justify-center h-screen bg-black overflow-hidden">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-red-400 to-red-1000">
+    <div className="relative flex items-center justify-center h-screen">
+      <div className="absolute w-[500px] h-[500px] "></div>
 
-      <div className="absolute w-[500px] h-[500px] bg-cyan-500/10 blur-[120px] rounded-full"></div>
-
-      <div className="relative z-10 backdrop-blur-2xl bg-white/5 border border-white/10 
+      <div
+        className="relative z-10 backdrop-blur-2xl bg-white/5 border border-white/10 
         shadow-[0_0_50px_rgba(0,255,255,0.1)] 
         rounded-3xl p-8 w-[350px]
-        transition-all duration-500 hover:border-cyan-500/30">
-        
+        transition-all duration-500 hover:border-cyan-500/30"
+      >
         <div className="flex flex-col items-center mb-6">
-          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 
-            flex items-center justify-center text-3xl font-black text-black shadow-[0_0_20px_rgba(6,182,212,0.5)] mb-4">
+          <div
+            className="w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 
+            flex items-center justify-center text-3xl font-black text-black shadow-[0_0_20px_rgba(6,182,212,0.5)] mb-4"
+          >
             {aluno?.nome?.charAt(0).toUpperCase()}
+            <Link href={`/aluno/${id}/editar`}>
+              <PenBox />
+            </Link>
           </div>
           <h1 className="text-2xl font-bold text-white tracking-tight text-center">
             {aluno?.nome}
@@ -66,16 +74,27 @@ export default function AlunoPage() {
         </div>
       </div>
     </div>
+    </div>
   );
 }
 
-function InfoRow({ label, value, isEmail = false }: { label: string; value?: string | number; isEmail?: boolean }) {
+function InfoRow({
+  label,
+  value,
+  isEmail = false,
+}: {
+  label: string;
+  value?: string | number;
+  isEmail?: boolean;
+}) {
   return (
     <div className="flex flex-col">
       <span className="text-[10px] uppercase tracking-wider text-cyan-500 font-bold mb-1 opacity-70">
         {label}
       </span>
-      <span className={`text-gray-200 text-sm font-medium ${isEmail ? 'break-all' : ''}`}>
+      <span
+        className={`text-gray-200 text-sm font-medium ${isEmail ? "break-all" : ""}`}
+      >
         {value || "Não informado"}
       </span>
     </div>
