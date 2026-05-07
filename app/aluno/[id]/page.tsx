@@ -7,10 +7,9 @@ import Link from "next/link";
 import { PenBox } from "lucide-react";
 
 export default function AlunoPage() {
-  const { id } = useParams();
-  const [aluno, setAluno] = useState<Aluno | null>(null);
-  const [loading, setLoading] = useState(true);
-
+    const { id } = useParams();
+    const [aluno, setAluno] = useState<Aluno>({} as Aluno);
+    const [loading, setLoading] = useState(true);
   useEffect(() => {
     async function fetchAluno() {
       const response = await getAluno(Number(id));

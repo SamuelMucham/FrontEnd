@@ -1,35 +1,35 @@
 "use client";
 import { useState } from "react";
-import { createAluno } from "./actions";
 import { useRouter } from "next/navigation";
+import { createCurso } from "./actions";
 
-export default function AlunoCadastroPage() {
+export default function CadastroPage() {
   const router = useRouter();
   const [name, setNome] = useState("");
-  const [idade, setIdade] = useState("");
-  const [cpf, setCpf] = useState("");
-  const [email, setEmail] = useState("");
+  const [professor, setProfessor] = useState("");
+  const [cargaHoraria, setCargaHoraria] = useState("");
+  const [descricao, setDescricao] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const response = await createAluno({
+    const response = await createCurso({
       nome: name,
-      idade: Number(idade),
-      cpf: Number(cpf),
-      email,
+      professor: professor,
+      cargaHoraria: Number(cargaHoraria),
+      descricao: descricao,
     });
     if (!response) {
       setNome("");
-      setIdade("");
-      setCpf("");
-      setEmail("");
-      router.push("/alunos");
+      setProfessor("");
+      setCargaHoraria("");
+      setDescricao("");
+      router.push("/cursos");
       return;
     }
     alert(response);
   }
 
-  return (
+  return (    
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-300 to-red-1000">
       <div className="relative perspective-[1000px] w-65 group">
         <div
@@ -58,7 +58,7 @@ export default function AlunoCadastroPage() {
               group-hover:-translate-y-6
             "
             >
-              Cadastro de Aluno
+              Cadastro de Curso
             </span>
           </div>
 
@@ -92,10 +92,26 @@ export default function AlunoCadastroPage() {
             />
 
             <input
+              type="text"
+              placeholder="Professor"
+              value={professor}
+              onChange={(e) => setProfessor(e.target.value)}
+              className="
+                w-full px-3 py-2
+                bg-white/80 border-[3px] border-black
+                font-bold text-black
+                shadow-[4px_4px_0_#000]
+                focus:outline-none
+                focus:translate-x-0.5 focus:translate-y-0.5
+                focus:shadow-[2px_2px_0_#000]
+              "
+            />
+
+            <input
               type="number"
-              placeholder="Idade"
-              value={idade}
-              onChange={(e) => setIdade(e.target.value)}
+              placeholder="Carga Horária"
+              value={cargaHoraria}
+              onChange={(e) => setCargaHoraria(e.target.value)}
               className="
                 w-full px-3 py-2
                 bg-white/80 border-[3px] border-black
@@ -109,25 +125,9 @@ export default function AlunoCadastroPage() {
 
             <input
               type="text"
-              placeholder="CPF"
-              value={cpf}
-              onChange={(e) => setCpf(e.target.value)}
-              className="
-                w-full px-3 py-2
-                bg-white/80 border-[3px] border-black
-                font-bold text-black
-                shadow-[4px_4px_0_#000]
-                focus:outline-none
-                focus:translate-x-0.5 focus:translate-y-0.5
-                focus:shadow-[2px_2px_0_#000]
-              "
-            />
-
-            <input
-              type="email"
-              placeholder="E-mail"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Descrição"
+              value={descricao}
+              onChange={(e) => setDescricao(e.target.value)}
               className="
                 w-full px-3 py-2
                 bg-white/80 border-[3px] border-black
@@ -150,8 +150,8 @@ export default function AlunoCadastroPage() {
                 hover:shadow-[2px_2px_0_rgba(255,255,255,0.3)]
                 transition
               "
-            >
-              Cadastrar
+              >
+                Cadastrar
             </button>
           </form>
         </div>

@@ -50,13 +50,12 @@ export default function AlunoPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-red-400 to-red-1000">
       
-      {/* BOTÃO VOLTAR */}
       <button
         type="button"
         onClick={() => router.push("/alunos")}
         className="mb-6 text-white bg-black/40 hover:bg-black/60 px-4 py-2 rounded-lg transition"
       >
-        ← Voltar para alunos
+        Voltar para alunos
       </button>
 
       <form onSubmit={handleUpdate}>
@@ -92,12 +91,12 @@ export default function AlunoPage() {
               />
             </div>
 
-            {/* BOTÃO SALVAR */}
             <button
               type="submit"
               className="mt-6 w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-semibold transition"
+              onClick={() => router.push("/alunos")}
             >
-              💾 Salvar
+              Salvar
             </button>
 
           </div>
