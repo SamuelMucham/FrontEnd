@@ -7,6 +7,7 @@ import { redirect } from "next/navigation"
 
 export async function getCursos() {
   try {
+    const DELETE = await deleteCurso(1)
     const cookiesStore = await cookies()
     const token = cookiesStore.get("access_token")?.value
 
