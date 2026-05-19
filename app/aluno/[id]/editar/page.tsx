@@ -2,11 +2,17 @@
 import { useParams, useRouter } from "next/navigation";
 import { SubmitEvent, useEffect, useState } from "react";
 import { Aluno } from "@/interfaces/alunos";
+import { Curso } from "@/interfaces/cursos";
 import { getAluno, updateAluno } from "../actions";
+import { getCursos } from "@/app/cursos/actions";
+import { ArrowLeftCircle, ArrowRightCircle} from "lucide-react"
 
 export default function AlunoPage() {
   const { id } = useParams();
   const [aluno, setAluno] = useState<Aluno>({} as Aluno);
+  const [ cursos, setCursos] = useState([] as Curso[])
+  const [matriculado , setMatriculado] = useState([] as Curso[])
+  const [NaoMatriculado , setNaoMatriculado] = useState([] as Curso[])
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -14,10 +20,29 @@ export default function AlunoPage() {
     async function fetchAluno() {
       const response = await getAluno(Number(id));
       setAluno(response);
+      getCursos().then((response) => setCursos(response))
       setLoading(false);
     }
     if (id) fetchAluno();
   }, [id]);
+
+  useEffect(() => {
+    if(aluno.cursos){
+      const matriculadoTemp = [] as Curso[]
+      const naoMatriculadoTemp = [] as Curso[]
+
+     for (const curso of cursos){
+      if(aluno.cursos.find((c) => c.id === curso.id)){
+        matriculadoTemp.push(curso)
+      }else{
+        naoMatriculadoTemp.push(curso)
+      }
+     }
+
+     setMatriculado(matriculadoTemp)
+     setNaoMatriculado(naoMatriculadoTemp)
+    }
+  }, [cursos, aluno])
 
   function handleChange(value: string | number, key: keyof Aluno) {
     setAluno({
@@ -28,7 +53,7 @@ export default function AlunoPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800">
+      <div className="flex items-center justify-center min-h-screen bg-linear-to-br from-gray-900 via-black to-gray-800">
         <span className="text-white tracking-widest animate-pulse">
           CARREGANDO DADOS...
         </span>
@@ -47,8 +72,19 @@ export default function AlunoPage() {
     router.push(`/aluno/${id}`);
   }
 
+  function matricular(curso: Curso){
+    setMatriculado((oldState) => [...oldState, curso]);
+    setNaoMatriculado((oldState) => oldState.filter((c) => c.id !== curso.id));
+  }
+
+  function desmatricular(curso: Curso){
+    setMatriculado((oldState) => oldState.filter((c) => c.id !== curso.id));
+    setNaoMatriculado((oldState) => [...oldState, curso]);
+  }
+
+
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-red-400 to-red-1000">
+    <div className="min-h-screen flex flex-col dap-10 items-center justify-center bg-linear-to-br from-red-400 to-red-1000">
       
       <button
         type="button"
@@ -60,7 +96,7 @@ export default function AlunoPage() {
 
       <form onSubmit={handleUpdate}>
         <div className="flex items-center justify-center">
-          <div className="bg-white/5 backdrop-blur-lg p-8 rounded-3xl w-[350px]">
+          <div className="bg-white/5 backdrop-blur-lg p-8 rounded-3xl w-87.5">
             <h1 className="text-white text-xl mb-6 font-semibold">
               {aluno?.nome}
             </h1>
@@ -102,6 +138,28 @@ export default function AlunoPage() {
           </div>
         </div>
       </form>
+      <div className="bg-white rounded-xl h-[40%] overflow-y-auto flex text-black p-4 gap-1 w-[50%]">
+      <ul className="w-[50%]">
+        <h2 className="text-center">Matriculado</h2>
+        {matriculado.map(curso => (
+          <li key={curso.id} className="underline w-full px-2">{curso.nome}
+          <button onClick={() => desmatricular(curso)}>
+            <ArrowRightCircle/>
+          </button>
+          </li>
+        ))}
+      </ul>
+      <ul className=" w-[50%] text-end">
+        <h2 className="text-center">Não Matriculado</h2>
+        {NaoMatriculado.map(curso => (
+          <li key={curso.id} className="underline w-full px-2">{curso.nome}
+          <button onClick={() => matricular(curso)}>
+            <ArrowLeftCircle/>
+          </button>
+          </li>
+        ))}
+      </ul>
+      </div>
     </div>
   );
 }
@@ -124,5 +182,6 @@ function InputRow({
         onChange={onChange}
       />
     </div>
+    
   );
 }
